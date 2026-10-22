@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentPro | Student Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#" data-page="dashboard">
+            <span class="brand-icon">S</span>
+            <span>Student<span class="brand-light">Pro</span>
+            <small>MANAGEMENT SYSTEM</small></span>
+        </a>
+
+        <div class="side-label" data-i18n="menu">MAIN MENU</div>
+        <nav class="navigation">
+            <button class="nav-link active" data-page="dashboard">
+                <span class="nav-icon">▦</span><span data-i18n="dashboard">Dashboard</span>
+            </button>
+            <button class="nav-link" data-page="students">
+                <span class="nav-icon">♙</span><span data-i18n="students">Students</span>
+            </button>
+            <button class="nav-link" data-page="attendance">
+                <span class="nav-icon">✓</span><span data-i18n="attendance">Attendance</span>
+            </button>
+            <button class="nav-link" data-page="settings">
+                <span class="nav-icon">⚙</span><span data-i18n="settings">Settings</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="help-card">
+                <div class="help-icon">✦</div>
+                <strong data-i18n="needHelp">Need help?</strong>
+                <p data-i18n="helpText">Manage your students easily with StudentPro.</p>
+                <a href="mailto:nasratullahhashimi@gmail.com" data-i18n="contactUs">Contact us</a>
+            </div>
+            <div class="sidebar-footer">© 2026 StudentPro</div>
+        </div>
+    </aside>
+
+    <main class="main-area">
+        <header class="topbar">
+            <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+            <div class="breadcrumb">
+                <span data-i18n="workspace">Workspace</span><span class="crumb-dot">/</span>
+                <strong id="pageTitle">Dashboard</strong>
+            </div>
+            <div class="top-actions">
+                <select id="languageSelect" class="language-select" aria-label="Language">
+                    <option value="en">English</option>
+                    <option value="ps">پښتو</option>
+                    <option value="fa">دری</option>
+                </select>
+                <button id="themeToggle" class="icon-button" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button>
+                <div class="profile-avatar">S</div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <!-- DASHBOARD -->
+            <section class="page-section" id="dashboardPage">
+                <div class="welcome-row">
+                    <div>
+                        <div class="eyebrow" data-i18n="overview">YOUR SCHOOL AT A GLANCE</div>
+                        <h1 data-i18n="welcome">Welcome to StudentPro 👋</h1>
+                        <p class="subtitle" data-i18n="welcomeText">Manage your students and track attendance in one place.</p>
+                    </div>
+                    <button class="primary-button" data-go="students"><span>＋</span> <span data-i18n="addStudent">Add Student</span></button>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card stat-blue">
+                        <div class="stat-top"><span data-i18n="totalStudents">Total Students</span><span class="stat-icon">♙</span></div>
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-caption" data-i18n="registered">Registered students</div>
+                    </article>
+                    <article class="stat-card stat-green">
+                        <div class="stat-top"><span data-i18n="presentToday">Present Today</span><span class="stat-icon">✓</span></div>
+                        <div class="stat-number" id="presentCount">0</div>
+                        <div class="stat-caption" data-i18n="attending">Students attending</div>
+                    </article>
+                    <article class="stat-card stat-red">
+                        <div class="stat-top"><span data-i18n="absentToday">Absent Today</span><span class="stat-icon">↗</span></div>
+                        <div class="stat-number" id="absentCount">0</div>
+                        <div class="stat-caption" data-i18n="notPresent">Students not present</div>
+                    </article>
+                    <article class="stat-card stat-purple">
+                        <div class="stat-top"><span data-i18n="notMarked">Not Marked</span><span class="stat-icon">◷</span></div>
+                        <div class="stat-number" id="unmarkedCount">0</div>
+                        <div class="stat-caption" data-i18n="awaiting">Awaiting attendance</div>
+                    </article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <section class="panel chart-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h2 data-i18n="attendanceAnalytics">Attendance Analytics</h2>
+                                <p data-i18n="attendanceOverview">Today's attendance overview</p>
+                            </div>
+                            <span class="live-badge"><span></span><span data-i18n="live">LIVE</span></span>
+                        </div>
+                        <div class="chart-summary">
+                            <div>
+                                <span class="big-percentage" id="attendancePercentage">0%</span>
+                                <span class="summary-label" data-i18n="attendanceRate">Attendance rate</span>
+                            </div>
+                            <div class="donut-chart" id="donutChart">
+                                <div class="donut-inner">
+                                    <strong id="donutPercentage">0%</strong>
+                                    <small data-i18n="present">Present</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-row">
+                                <span class="legend-name"><i class="legend-dot green"></i><span data-i18n="present">Present</span></span>
+                                <div class="bar-track"><div class="bar green-bar" id="presentBar"></div></div>
+                                <strong id="presentChartCount">0</strong>
+                            </div>
+                            <div class="legend-row">
+                                <span class="legend-name"><i class="legend-dot red"></i><span data-i18n="absent">Absent</span></span>
+                                <div class="bar-track"><div class="bar red-bar" id="absentBar"></div></div>
+                                <strong id="absentChartCount">0</strong>
+                            </div>
+                            <div class="legend-row">
+                                <span class="legend-name"><i class="legend-dot purple"></i><span data-i18n="notMarked">Not Marked</span></span>
+                                <div class="bar-track"><div class="bar purple-bar" id="unmarkedBar"></div></div>
+                                <strong id="unmarkedChartCount">0</strong>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="panel quick-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h2 data-i18n="quickActions">Quick Actions</h2>
+                                <p data-i18n="quickText">Get things done faster</p>
+                            </div>
+                        </div>
+                        <button class="quick-action" data-go="students">
+                            <span class="quick-icon blue-icon">＋</span>
+                            <span><strong data-i18n="addNewStudent">Add a new student</strong><small data-i18n="addStudentDesc">Register a student profile</small></span>
+                            <span class="quick-arrow">›</span>
+                        </button>
+                        <button class="quick-action" data-go="attendance">
+                            <span class="quick-icon green-icon">✓</span>
+                            <span><strong data-i18n="markAttendance">Mark attendance</strong><small data-i18n="markDesc">Record today's attendance</small></span>
+                            <span class="quick-arrow">›</span>
+                        </button>
+                        <button class="quick-action" data-go="settings">
+                            <span class="quick-icon purple-icon">⚙</span>
+                            <span><strong data-i18n="preferences">Preferences</strong><small data-i18n="preferencesDesc">Language and appearance</small></span>
+                            <span class="quick-arrow">›</span>
+                        </button>
+                    </section>
+                </div>
+
+                <section class="panel recent-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2 data-i18n="recentStudents">Recent Students</h2>
+                            <p data-i18n="recentText">Your latest registered students</p>
+                        </div>
+                        <button class="text-button" data-go="students"><span data-i18n="viewAll">View all</span> →</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr>
+                                <th data-i18n="student">STUDENT</th>
+                                <th data-i18n="studentId">STUDENT ID</th>
+                                <th data-i18n="attendanceStatus">ATTENDANCE</th>
+                            </tr></thead>
+                            <tbody id="recentStudentsBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="recentEmpty">
+                        <div class="empty-icon">♙</div>
+                        <strong data-i18n="noStudents">No students yet</strong>
+                        <p data-i18n="emptyText">Add your first student to get started.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- STUDENTS -->
+            <section class="page-section hidden" id="studentsPage">
+                <div class="welcome-row">
+                    <div>
+                        <div class="eyebrow" data-i18n="schoolRecords">SCHOOL RECORDS</div>
+                        <h1 data-i18n="studentDirectory">Student Directory</h1>
+                        <p class="subtitle" data-i18n="directoryText">Add, search and manage student profiles.</p>
+                    </div>
+                    <button class="primary-button" id="openStudentForm">＋ <span data-i18n="addStudent">Add Student</span></button>
+                </div>
+
+                <section class="panel form-panel hidden" id="studentFormPanel">
+                    <div class="panel-heading">
+                        <div><h2 id="formTitle" data-i18n="newStudent">Add New Student</h2><p data-i18n="formSubtitle">Enter the student's details below.</p></div>
+                        <button class="icon-button" id="closeStudentForm" aria-label="Close form">✕</button>
+                    </div>
+                    <form id="studentForm">
+                        <input type="hidden" id="editStudentId">
+                        <div class="form-grid">
+                            <label class="photo-upload">
+                                <span class="photo-preview" id="photoPreview">♙</span>
+                                <span><strong data-i18n="studentPhoto">Student photo</strong><small data-i18n="photoHelp">Optional · JPG or PNG</small></span>
+                                <input type="file" id="studentPhoto" accept="image/*">
+                            </label>
+                            <label><span data-i18n="fullName">Full Name *</span><input id="studentName" type="text" maxlength="80" required placeholder="Enter full name"></label>
+                            <label><span data-i18n="studentId">Student ID *</span><input id="studentIdInput" type="text" maxlength="30" required placeholder="e.g. STU-001"></label>
+                            <label><span data-i18n="email">Email (optional)</span><input id="studentEmail" type="email" maxlength="120" placeholder="student@example.com"></label>
+                            <label><span data-i18n="phone">Phone (optional)</span><input id="studentPhone" type="tel" maxlength="30" placeholder="+93 ..."></label>
+                            <label><span data-i18n="classGroup">Class / Group</span><input id="studentClass" type="text" maxlength="50" placeholder="e.g. Class 10 A"></label>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="secondary-button" id="cancelStudentForm" data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-button" id="saveStudentButton" data-i18n="saveStudent">Save Student</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="panel directory-panel">
+                    <div class="directory-toolbar">
+                        <div><h2 data-i18n="allStudents">All Students</h2><p id="directoryCount">0 students</p></div>
+                        <input class="search-input" id="studentSearch" type="search" placeholder="⌕  Search students..." data-i18n-placeholder="searchStudents">
+                    </div>
+                    <div id="studentGrid" class="student-grid"></div>
+                    <div class="empty-state" id="studentsEmpty">
+                        <div class="empty-icon">♙</div><strong data-i18n="noStudents">No students yet</strong>
+                        <p data-i18n="emptyText">Add your first student to get started.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ATTENDANCE -->
+            <section class="page-section hidden" id="attendancePage">
+                <div class="welcome-row">
+                    <div>
+                        <div class="eyebrow" data-i18n="dailyRecords">DAILY RECORDS</div>
+                        <h1 data-i18n="attendanceManagement">Attendance Management</h1>
+                        <p class="subtitle" data-i18n="attendancePageText">Mark each student's attendance for today.</p>
+                    </div>
+                    <button class="primary-button" id="markAllPresent" data-i18n="markAll">✓ Mark All Present</button>
+                </div>
+                <section class="panel attendance-panel">
+                    <div class="directory-toolbar">
+                        <div><h2 data-i18n="dailyAttendance">Daily Attendance</h2><p id="attendanceDate"></p></div>
+                        <input class="search-input" id="attendanceSearch" type="search" placeholder="⌕  Search students..." data-i18n-placeholder="searchStudents">
+                    </div>
+                    <div class="attendance-list" id="attendanceList"></div>
+                    <div class="empty-state" id="attendanceEmpty">
+                        <div class="empty-icon">✓</div><strong data-i18n="noStudents">No students yet</strong>
+                        <p data-i18n="attendanceEmptyText">Add students before marking attendance.</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- SETTINGS -->
+            <section class="page-section hidden" id="settingsPage">
+                <div class="welcome-row">
+                    <div>
+                        <div class="eyebrow" data-i18n="personalize">PERSONALIZE</div>
+                        <h1 data-i18n="settings">Settings</h1>
+                        <p class="subtitle" data-i18n="settingsText">Customize your StudentPro workspace.</p>
+                    </div>
+                </div>
+                <section class="panel settings-panel">
+                    <div class="settings-heading"><span class="settings-icon">🌐</span><div><h2 data-i18n="language">Language</h2><p data-i18n="languageText">Choose your preferred display language.</p></div></div>
+                    <label class="setting-control"><span data-i18n="displayLanguage">Display language</span>
+                        <select id="settingsLanguage">
+                            <option value="en">English</option><option value="ps">پښتو</option><option value="fa">دری</option>
+                        </select>
+                    </label>
+                    <div class="settings-divider"></div>
+                    <div class="settings-heading"><span class="settings-icon">🎨</span><div><h2 data-i18n="appearance">Appearance</h2><p data-i18n="appearanceText">Choose a comfortable viewing theme.</p></div></div>
+                    <div class="setting-control"><span data-i18n="darkMode">Dark mode</span><button id="settingsThemeToggle" class="secondary-button" data-i18n="toggleTheme">Toggle theme</button></div>
+                    <div class="settings-divider"></div>
+                    <div class="settings-heading"><span class="settings-icon">💾</span><div><h2 data-i18n="dataManagement">Data Management</h2><p data-i18n="dataText">Export your student records or clear this browser's saved data.</p></div></div>
+                    <div class="settings-buttons">
+                        <button id="exportData" class="secondary-button" data-i18n="exportData">↓ Export students (CSV)</button>
+                        <button id="clearData" class="danger-button" data-i18n="clearData">Clear all students</button>
+                    </div>
+                    <p class="settings-note" data-i18n="localNote">Your records are saved in this browser on this device. Export a backup regularly.</p>
+                </section>
+                <section class="panel about-panel">
+                    <div class="brand about-brand"><span class="brand-icon">S</span><span>StudentPro<small data-i18n="aboutSystem">STUDENT MANAGEMENT SYSTEM</small></span></div>
+                    <p data-i18n="aboutText">A simple workspace for student records and daily attendance.</p>
+                    <a href="https://nasratullahhashimi97.github.io/my-website/" target="_blank" rel="noopener noreferrer">Portfolio website ↗</a>
+                </section>
+            </section>
+
+            <footer class="page-footer"><span>StudentPro © 2026</span><span data-i18n="footerText">Built for better student management.</span></footer>
+        </div>
+    </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
+
+<footer class="developer-footer">
+    <h3>Developed by Nasratullah Hashimi</h3>
+    <p>Junior Web Developer | HTML, CSS & JavaScript</p>
+
+   
+<a
+href="https://mail.google.com/mail/?view=cm&fs=1&to=nasratulahhashimi97@gmail.com"
+target="_blank"
+rel="noopener noreferrer">
+Email Me
+</a>
+
+
+    <br>
+
+    <a href="https://nasratullahhashimi97.github.io/my-website/"
+       target="_blank">
+        Visit My Portfolio
+    </a>
+
+    <p>© 2026 Nasratullah Hashimi. All rights reserved.</p>
+</footer>
